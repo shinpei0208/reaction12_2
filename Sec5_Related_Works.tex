@@ -1,0 +1,21 @@
+%!TEX root = farm.tex
+
+\section{Related Work}\label{sec:related}
+This Section introduce related work and draw a comparison between our works and related work.
+\subsection{Helios: Heterogeneous Multiprocessing with Satellite Kernels}
+A study on Helios\cite{NightingaleEB:SOSP09:2009} was made by Edmoud at the Microsoft Research, and it revealed that is an operating system designed to simplify the task of writing, deploying, and tuning applications for heterogeneous platforms.
+There says required the using programmable devices such as GPU and NIC for the high-performance vector processing and high-speed communications.
+GPU and NIC leveraging its capabilities via the device driver, in this form, the amount of data that can be transferred is limited by the communication between the CPU and the device.
+Further more, the problem has complexity of the device driver and not provided interface of runs a task.
+Approach is providing OS called Helios.
+The Helios has micro kernel called satellite kernels.
+The satellite kernels has the scheduler, memory manager, name space manager, and communication between the kernel.
+The same direction that the Helios is our aim.
+Helios approach to NIC, but our approach to GPU.
+The above problems be able to solve by the  implement firmware on GPU microcontroller.
+
+\subsection{Design of Direct Communication Facility for Manycore based Accelerators}
+A study on DCFA\cite{weko_81351_1} was made by Si at the Tokyo university, and it revealed that the DCFA avoid the trouble of having to the communication latency of between devices by direct communication between devices without going through the host.
+Currently, the DCFA can not adapt to the GPU, because the device address isn't known GPU.
+We think that communication is done between the GPU devices by issuing to direct communication by the firmware.
+

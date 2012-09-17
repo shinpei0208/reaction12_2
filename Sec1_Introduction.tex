@@ -1,0 +1,94 @@
+%!TEX root = farm.tex
+
+\section{Introduction}\label{sec:intro}
+% no \IEEEPARstart
+
+Graphics processing units (GPUs) are becoming more and more commonplace
+to support compute-intensive and data-parallel computing.
+In many application domains, GPU-accelerated systems provide significant
+performance gains over traditional multi-core CPU-based systems.
+As shown in Table~\ref{tab:cpu-gpu}, the peak performance of the
+state-of-the-art GPUs exceeds 3,000 GFLOPS, integrating more than 1,500
+cores on a chip, which is nearly equivalent of 19 times that of
+traditional microprocessors, such as Intel Core i7 series.
+Such a rapid growth of GPUs is due to recent advances in programming
+support, such as CUDA\cite{cuda} and OpenCL\cite{opencl},  for
+general-purpose computing on GPUs, also known as GPGPU.
+
+\begin{table*}[tb]
+ \caption{Comparison of the Intel CPU Architectures and the NVIDIA GPU
+ Architectures}
+ \label{tab:cpu-gpu}
+ \begin{center}
+  \hbox to\hsize{\hfil
+  \begin{tabular}{|c|c|c|c|c|c|}\hline
+   & Core i7 980XE & Core i7 3960X & GeForce GTX285 & GeForce GTX480 &
+   GeForce GTX680 \\ \hline
+   \# of processing cores & 6 & 6 & 240 & 480 & 1536 \\ \hline
+   Single-precision performance (GFLOPS) & 108.0 & 158.4 & 933.0 & 1350.0
+		   & 3090.0 \\ \hline
+   Memory bandwidth (GB/sec) & 37.55 & 51.2 & 159.0 & 177.0 & 192.2 \\ \hline
+   Power consumption (watt) & 130 & 278 & 183 & 250 & 195 \\ \hline
+   Release date & 2010/03 & 2011/11 & 2009/01 & 2010/04 & 2012/03 \\ \hline
+  \end{tabular}\hfil}
+ \end{center}
+\end{table*}
+
+\par
+In recent years, real-time systems have been augmented with
+the GPU~\cite{Kato_ATC11, Kato_RTSS11, Kato_RTAS11, Basaran_ECRTS12,
+Elliott_ECRTS12, Elliott_RTS12}.
+The motivation of using the GPU in real-time systems is mainly found in
+emerging applications of cyber-physical systems~\cite{Aumiller_CPSNA12,
+McNaughton_ICRA11, Ferreira_JRTIP11}, where a large
+amount of data acquired from the physical world needs to be processed in
+real-time.
+Given that the workload of such applications is highly compute-intensive and
+data-parallel, many-core computing on the GPU is best suited to meet the
+real-fast requirements of computation.
+What is challenging in this line of work is to control the GPU under
+real-time constraints.
+The GPU is a coprocessor independent of the CPU, and hence two different
+pieces of code are running concurrently on the GPU and the CPU, respectively.
+This heterogeneity poses a core challenge in resource management.
+Since the GPU is designed to accelerate particular workload, resource
+management functions are often performed on the CPU.
+In other words, the GPU and the CPU must be synchronized in some way to
+ensure timeliness.
+Unfortunately, this could be a major source of latency that makes
+real-time systems unpredictable~\cite{Kato_ATC11}, though the previous
+work are forced to take this approach due to a lack of functionality
+that enables resource management functions to offload on to the GPU.
+While compute cores or shaders on the GPU are not available to perform
+resource management, recent GPUs integrate microcontrollers on a chip
+where firmware code is launched to control the functional units of the
+GPU.
+These microcontrollers are highly available to extend the functionality
+of GPU resource management, launching special pieces of firmware code to
+control GPU executions and data transfers.
+
+\par
+This paper presents a compiler and debugging environment for NVIDIA's
+GPU microcontrollers based on the well-known portable LLVM compiler
+infrastructure.
+The main purpose of this environment is to enhance the productivity of
+GPU firmware development so that the community can facilitate future
+research on fine-grained GPU resource management using microcontrollers.
+Firmware is self-contained within the GPU, and there will be
+interference from background jobs running on the CPU, once it is
+uploaded by the device driver.
+Therefore, we believe that GPU computing would be more timely and
+reliable for real-time systems, if the firmware can support GPU resource
+management by itself.
+In this paper, we develop an initial stage of the firmware, and evaluate
+its basic performance.
+
+\par
+The rest of this paper is organized as follows.
+Section~\ref{sec:intro} introduces the underlying platform technology.
+Section~\ref{sec:tech} describes the design and implementation of our
+compiler and debugging environment for NVIDIA's GPU microcontrollers,
+and Section~\ref{sec:evaluation} evaluates its basic performance.
+Related work are discussed in Section~\ref{sec:related}.
+This paper is concluded in Section~\ref{sec:con}.
+\stepcounter{footnote}
