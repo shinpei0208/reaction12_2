@@ -5,17 +5,16 @@
 This section describes the design and implementation of our compiler and
 debugging environment for NVIDIA's GPU microcontrollers.
 
-\subsection{GPU microcontroller}
+\subsection{Microcontroller}
 
 \begin{table}[tb]
-\caption{Microcontroller Specifications in GF100 } 
+\caption{Specification of GF100 microcontroller.} 
 \label{tab:fermi}
-% 左右の罫線はつけず，一番上の罫線は二重線
 \hbox to\hsize{\hfil
 \begin{tabular}{|l|r|r|}\hline
 Name 		&	HUB	   & GPC\\\hline
 Architecture &	Fermi   & Fermi \\\hline
-Number		& 1 & 4\\\hline
+Number of units	& 1 & 4\\\hline
 Bit 		&	32bit  & 32bit\\\hline
 Code size  &	16,384 byte  & 8,192 byte\\\hline
 Data size  &	4,096 byte  & 2,048 byte\\\hline
@@ -24,68 +23,92 @@ Data size  &	4,096 byte  & 2,048 byte\\\hline
 \end{tabular}\hfil}
 \end{table}
 
-This research use the microcontroller of Nvidia's Fermi architecture such as GF100 (GeForce GTX480).
-In GF100, a Streaming Multiprocessor (SM) consists of 32 CUDA cores, and a Graphical Processor Cluster (GPC) consists of 4 SM's, and GF100 consist of 4 GPC's. Thus GF100 mounted 512 CUDA cores. Since one full SM is disabled. GF100 has 480 valid CUDA cores.
-Since maximum code size of the microcontroller is limited to 16KB as indicated in Table \ref{tab:fermi}, developers should carefully design the firmware.
+This paper presumes the microcontroller of NVIDIA's Fermi architecture.
+In particular, we target the GeForce GTX 480 graphics card designed
+based on the GF100 architecture.
+In this architecture, a streaming multiprocessor (SM) consists of
+32 CUDA cores, while a graphics processing cluster (GPC) consists of 4
+SM's.
+There are four GPC's in total equipped in the GF100 architecture, and
+hence the maximum number of CUDA cores is 512.
 
-\subsection{The compiler for GPU microcontroller}
-The compiler for GPU microcontroller generates object code of GPU microcontroller manufactured by NVIDIA.
-\subsubsection{The overall flow}\label{section:flow}
+Table~\ref{tab:fermi} illustrates the specification of the GF100
+microcontroller.
+There are two types of microcontrollers, HUB and GPC, relevant to CUDA
+engines.
+HUB is broadcasting the access to all GPC's, while the GPC represents a
+specific microcontroller for each GPC engine.
+Since the maximum code size is limited to 16KB as indicated in Table
+\ref{tab:fermi}, developers should carefully design the firmware.
+
+\subsection{Compiler Implementation}
+
 \begin{figure*}
 \begin{center}
 \includegraphics[width=12cm]{./img/step_compiler.pdf}
 \end{center}
-\caption{Detail of Compiler for GPU Microcontroller}
+\caption{Overview of Compiler Implementation.}
 \label{fig:compiler}
 \end{figure*}
 
-
-The compiler for GPU microcontroller implemented using the LLVM.
-Figure \ref{fig:compiler} shows an overall view of the compiler for GPU microcontroller.
-The main flow of the compilation is Clang done generate LLVM IR from the source of the C language in the first,
-Next then, LLC generates assembly code from LLVM IR.
-After, assembly code divided to code part and data part, code part unions bootstrap code.
-
-Finally, envyas generates an executable file.
-The executable file can be run using the debugging support tool or device driver.
-If developer develops the firmware in this development environment that only need to write the code for the C language.
-
-\begin{description}
-\item[ (1) Clang]\mbox{}\\
-Clang is a frontend that generates IR for LLVM from C language source codes.
+Figure \ref{fig:compiler} shows an overview of our compiler
+implementation.
+The main flow of compilation is done by Clang.
+It generates the LLVM IR from the C source file.
+The LLC next generates assembly code, which contains code and data in
+separate files.
+Finally, the Envytools outputs an executable file.
+This executable file can be launched by the device driver, and can also
+be tested by our debugging tool described in the later section.
+To summarize, our compiler takes the following stages:
 
 \begin{figure}
-\begin{center}
-\includegraphics[width=6cm]{./img/llc.pdf}
-\end{center}
-\caption{Step of code generation in LLC}
-\label{fig:llc}
+ \begin{center}
+  \includegraphics[width=6cm]{./img/llc.pdf}
+ \end{center}
+ \caption{Code generation stages of LLC.}
+ \label{fig:llc}
 \end{figure}
 
 \begin{figure*}
-\begin{center}
-\includegraphics[width=12cm]{./img/llvm_code.pdf}
-\end{center}
-\caption{C source code and generated code. Left : C, Center : LLVM IR, Right : Assembly}
-\label{fig:llvm_code}
+ \begin{center}
+  \includegraphics[width=12cm]{./img/llvm_code.pdf}
+ \end{center}
+ \caption{Examples of C source code and output code.}
+ \label{fig:llvm_code}
 \end{figure*}
-\item[ (2) LLC with nvfuc]\mbox{}\\
-As mentioned Section \ref{set:backend}, LLC is the backend of LLVM that compiles LLVM IR code into assembly language for a specified architecture.
-Figure \ref{fig:llc} shows LLC flow.
-There are five steps to convert an LLVM IR to specific assembly code; flow analysis, optimization, instruction selection, register allocation, code generation.
-The flow is not depend on the target machine agnostic has been standardized.
-LLC reads the configuration of the target machine at the time of the instruction selection and selects the instruction and register to meet the specifications of each machine. 
-A new configuration called nvfc (NVidia Firmware Compiler) for GPU microcontroller manufactured by NVIDIA is added to target machine configurations.
+
+\begin{description}
+\item[ (1) Clang]\mbox{}\\
+	   This is a frontend of C language that generates LLVM IR code
+	   from the source file.
+
+\item[ (2) LLC with nvuc]\mbox{}\\
+	   This is a backend of LLVM that compiles LLVM IR code into
+	   assembly code. 
+	   As shown in Figure~\ref{fig:llc}, there are five steps to
+	   exploit compilation: (i) flow analysis, (ii) optimization,
+	   (iii) instruction selection, (iv) register allocation, and
+	   (v) code generation.
+	   This flow is not dependent on the target machine.
+	   The LLC reads a configuration of the target machine at the
+	   time of instruction selection, and selects a set of the
+	   instruction and register to meet the specifications of each
+	   machine.
+	   Our implementation adds a new configuration called nvuc
+	   (NVIDIA Micro-Controller) to support NVIDIA's GPU
+	   microcontrollers under the LLVM infrastructure.
 
 \item[ (3) LLVM to envyas]\mbox{}\\
-``LLVM to envyas'' divides the generated assembly code into code section and data section.
-``LLVM to envyas'' combines code section and BootstrapCode including code to set up an interrupt handler and a call main function.
-Further ``LLVM to envyas'' replaces labels of code section to data address.
+	   This stage divides the generated assembly code into code and
+	   data sections so that we can create binary images using
+	   ``envyas'', which is a microcontroller assembler provided by
+	   the Envytools suite.
+	   The bootstrap code is also unified into the binary images
+	   in this stage.
 \item[ (4) envyas]\mbox{}\\
-As mentioned in Section \ref{sec:design},
-``envyas'' is assembler for the GPU micro controller and is included in the envytools.
-The envyas generates the execution files from generated the code section by Step (3).
-
+	   This is a final assembly stage for the microcontroller, which
+	   generates the byte code of the firmware.
 \item[ (5) hex to bin]\mbox{}\\
 ``hex to bin'' converts to the data portion split Step (3) to an executable file.
 
@@ -94,7 +117,6 @@ There are two ways to run the firmware: incorporating the firmware into the devi
 The device driver and the debugging support tool load the binary file of the firmware at boot time.
 \end{description}
 
-\subsubsection{The generated code}
 Figure \ref{fig:llvm_code} shows example of C language source codes, LLVM IR code, and assembly code.
 Left is C language source codes, center is LLVM IR code that is generated by \ref{section:flow}(1), right is assembly code that is generated by \ref{section:flow}(3).
 
