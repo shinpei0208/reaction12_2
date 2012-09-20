@@ -1,29 +1,3 @@
-@TECHREPORT { weko_81351_1,
-	author = "Min Si and Yutaka Ishikawa",
-	institution = "CASS2012 in conjunction with IPDPS2012",
-	mark = "ON",
-	modified = "2012-09-09 20:19:16 +0000",
-	number = 16,
-	title = "Design of Direct Communication Facility for Manycore-based Accelerators",
-	year = 2012
-}
-
-@MISC { xorg,
-	author = "X.org Foundation",
-	howpublished = "\url{http://www.x.org/}",
-	mark = "ON",
-	modified = "2012-06-05 17:19:05 +0000",
-	title = "X.org"
-}
-
-@MISC { freedesktop,
-	author = "Freedesktop.org",
-	howpublished = "\url{http://www.freedesktop.org/}",
-	mark = "ON",
-	modified = "2012-06-05 17:19:05 +0000",
-	title = "Freedesktop.org"
-}
-
 @MISC { nouveau,
 	author = "Freedesktop.org and X.Org Foundation",
 	howpublished = "\url{http://nouveau.freedesktop.org/}",
@@ -32,38 +6,12 @@
 	title = "Nouveau"
 }
 
-@ARTICLE { shimosawa2010inter,
-	author = "Taku Shimosawa and Yutaka Ishikawa",
-	journal = "Information and Media Technologies",
-	mark = "ON",
-	number = 1,
-	pages = "13--31",
-	publisher = "J-STAGE",
-	title = "Inter-kernel Communication between Multiple Kernels on Multicore Machines",
-	volume = 5,
-	year = 2010
-}
-
-@INPROCEEDINGS { bautin2008graphic,
-	author = "Bautin, M. and Dwarakinath, A. and Chiueh, T.",
-	booktitle = "Proceedings of SPIE",
-	mark = "ON",
-	pages = "68180O",
-	title = "Graphic engine resource management",
-	volume = 6818,
-	year = 2008
-}
-
-@ARTICLE { kato2011operating,
-	author = "Shinpei Kato and Brandt, S. and Yutaka Ishikawa and Rajkumar, R. R.",
-	citeulike-article-id = 9989710,
-	journal = "OSPERT 2011",
-	mark = "ON",
-	pages = 21,
-	posted-at = "2011-11-04 21:18:27",
-	priority = 2,
-	title = "{Operating Systems Challenges for GPU Resource Management}",
-	year = 2011
+@inproceedings{KATO_OSPERT11,
+author = {S. Kato and S. Brandt and Y. Ishikawa and R. Rajkumar},
+booktitle = {Proc. of the International Workshop on Operating Systems Platforms for Embedded Real-Time Applications},
+pages = {pp. 21--30},
+title = {{Operating Systems Challenges for GPU Resource Management}},
+year = 2011
 }
 
 @inproceedings{Bautin_MCNC08,
@@ -156,14 +104,6 @@ year = {2011},
 }
 
 
-@MISC { pathscale:enzo,
-	author = "PathScale",
-	howpublished = "\url{http://www.pathscale.com}",
-	mark = "ON",
-	modified = "2012-06-05 17:19:05 +0000",
-	title = "ENZO"
-}
-
 @MISC { nvidia:linux:driver,
 	author = "NVIDIA",
 	howpublished = "\url{http://llvm.org/}",
@@ -186,14 +126,6 @@ year = {2011},
 	title = {{Envytools}}
 }
 
-@MISC { pathscale:pscnv,
-	author = "PathScale",
-	howpublished = "\url{http://www.pathscale.com}",
-	mark = "ON",
-	modified = "2012-06-05 17:19:31 +0000",
-	title = "PSCNV GPU Device Driver"
-}
-
 @MASTERSTHESIS { llvm:start,
 	address = "Urbana, IL",
 	author = "Chris Lattner",
@@ -205,73 +137,44 @@ year = {2011},
 	year = 2002
 }
 
-@MASTERSTHESIS { gpgpu2,
-	author = "Ashok Dwarakinath",
-	mark = "ON",
-	modified = "2012-06-12 14:26:47 +0000",
-	school = "{Computer Science , Stony Brook University}",
-	title = "A Fair-Share Scheduler for the Graphics Processing Unit",
-	year = 2008
+@inproceedings {Nightingale_SOSP09,
+author = {E.B. Nightingale and O. Hodson and R. McIlroy and C. Hawblitzel and Galen C. Hunt},
+booktitle = {ACM Symposium on Operating Systems Principles},
+pages = {221--234},
+title = {{Helios: heterogeneous multiprocessing with satellite kernels}},
+year = {2009}
 }
 
-@MISC { kato:gdev2,
-	author = "Shinpei Kato",
-	howpublished = "\url{http://sys.ertl.jp/gdev/}",
-	mark = "ON",
-	modified = "2012-06-20 23:38:56 +0000",
-	title = "Gdev Project.",
-	year = 2012
+@misc {GIT_GDEV,
+author = {S. Kato},
+howpublished = {\url{http://sys.ertl.jp/gdev/}},
+title = {{Gdev Project}},
+year = {2012}
 }
 
-@INPROCEEDINGS { kato:gdev,
-	author = "Shinpei Kato and McThrow, M. and Maltzahn, C. and Brandt, S.",
-	booktitle = "USENIX ATC",
-	mark = "ON",
-	modified = "2012-06-20 23:36:02 +0000",
-	title = "Gdev: First-class GPU resource management in the operating system",
-	volume = 12,
-	year = 2012
+@misc {GIT_NVFC,
+author = {Y. Fujii and T. Azumi and S. Kato},
+howpublished = "\url{https://github.com/yukke0826/nvfc}",
+title = {{NVIDIA Firmware Compiler Project}},
+year = {2012}
 }
 
-@INPROCEEDINGS { NightingaleEB:SOSP09:2009,
-	author = "Edmund B. Nightingale and Orion Hodson and Ross McIlroy and Chris Hawblitzel and Galen C. Hunt",
-	booktitle = "SOSP'09",
-	mark = "ON",
-	modified = "2012-07-05 03:51:55 +0000",
-	pages = "221 - 234",
-	title = "Helios: heterogeneous multiprocessing with satellite kernels",
-	year = 2009
+@misc {GIT_FARM,
+author = {Y. Fujii and T. Azumi and S. Kato},
+howpublished = "\url{https://github.com/yukke0826/farm}",
+title = {{FARM Project}},
+year = {2012}
 }
 
-@MISC { yukke:farm,
-	author = "Yusuke Fujii and Takuya Azumi and Shinpei Kato",
-	howpublished = "\url{http://sys.ertl.jp/farm/}",
-	mark = "ON",
-	modified = "2012-07-01 04:57:05 +0000",
-	title = "Farm Project.",
-	year = 2012
+@misc {CUDA,
+author = {NVIDIA},
+howpublished = {\url{http://www.nvidia.com/}},
+mark = {ON},
+title = {{CUDA}},
 }
 
-@MISC { cuda,
-	author = {NVIDIA},
-	howpublished = {\url{http://www.nvidia.com/}},
-	mark = {ON},
-	title = {{CUDA}}
+@opencl {OPENCL,
+author = {KHRONOS},
+howpublished = {\url{http://www.khronos.org/opencl/}},
+title = {{OpenCL - The open standard for parallel programming of heterogeneous systems}}
 }
-
-@MISC { opencl,
-	author = {KHRONOS},
-	howpublished = {\url{http://www.khronos.org/opencl/}},
-	mark = {ON},
-	title = {{OpenCL - The open standard for parallel programming of heterogeneous systems}}
-}
-
-@MISC { yukke:nvfc,
-	author = "Yusuke Fujii and Takuya Azumi and Shinpei Kato",
-	howpublished = "\url{https://github.com/yukke0826/nvfc}",
-	mark = "ON",
-	modified = "2012-09-11 07:04:25 +0000",
-	title = "Nvidia Firmware Compiler",
-	year = 2012
-}
-

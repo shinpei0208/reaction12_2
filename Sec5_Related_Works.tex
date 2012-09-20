@@ -1,10 +1,14 @@
 %!TEX root = farm.tex
 
 \section{Related Work}\label{sec:related}
-This Section introduce related work and draw a comparison between our works and related work.
-\subsection{Helios: Heterogeneous Multiprocessing with Satellite Kernels}
-A study on Helios\cite{NightingaleEB:SOSP09:2009} was made by Edmoud at the Microsoft Research, and it revealed that is an operating system designed to simplify the task of writing, deploying, and tuning applications for heterogeneous platforms.
-There says required the using programmable devices such as GPU and NIC for the high-performance vector processing and high-speed communications.
+
+We now briefly discuss related work, and draw a comparison with our
+research. 
+
+Helios~\cite{NightingaleEB:SOSP09:2009} is an operating system component
+designed to simplify the task of writing, deploying, and tuning
+applications for heterogeneous platforms.
+They insist that programmable devices such as GPUs and NICs for the high-performance vector processing and high-speed communications.
 GPU and NIC leveraging its capabilities via the device driver, in this form, the amount of data that can be transferred is limited by the communication between the CPU and the device.
 Further more, the problem has complexity of the device driver and not provided interface of runs a task.
 Approach is providing OS called Helios.
